@@ -5,13 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "prisma generate --config prisma7.config.ts",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate --config prisma7.config.ts",
     "db:migrate": "prisma migrate dev --config prisma7.config.ts",
-    "db:seed": "prisma db seed --config prisma7.config.ts"
-    ,"admin:create": "tsx prisma/create-admin.ts"
+    "db:seed": "prisma db seed --config prisma7.config.ts",
+    "postinstall": "prisma generate --config prisma7.config.ts",
+    "admin:create": "tsx prisma/create-admin.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
