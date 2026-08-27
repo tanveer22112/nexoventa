@@ -1,0 +1,1 @@
+export default function TermsPage() { return <main><section className="page-intro shell"><p className="eyebrow">Terms</p><h1>Terms of use</h1><p>Training availability is subject to review and confirmation by Nexoventa. A submitted application is not a guarantee of admission.</p></section></main> }

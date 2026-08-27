@@ -1,0 +1,3 @@
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { whatsappUrl } from "@/lib/whatsapp";
+export default function ContactPage() { return <main><section className="page-intro shell"><p className="eyebrow">Contact</p><h1>Let&apos;s talk about<br /><em>what comes next.</em></h1><p>Reach out about billing support, training, or the next available batch.</p></section><section className="shell contact-details"><a href="tel:03488881953"><Phone />0348 8881953</a><a href={whatsappUrl()}><MessageCircle />0355 5252025</a><a href="mailto:alijanbasharat@gmail.com"><Mail />alijanbasharat@gmail.com</a><span><MapPin />Near I-SAHRD Pakistan, Karim Town, Gilgit-Baltistan</span></section></main> }

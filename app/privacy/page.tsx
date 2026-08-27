@@ -1,0 +1,1 @@
+export default function PrivacyPage() { return <main><section className="page-intro shell"><p className="eyebrow">Privacy</p><h1>Privacy policy</h1><p>Information submitted through Nexoventa forms is used to review training applications and respond to enquiries. We do not sell personal information.</p></section></main> }
