@@ -10,7 +10,7 @@ function monthLabel(month: number, year: number) {
 
 export default async function TrainingPage() {
   const batches = await db.batch.findMany({
-    where: { status: { in: ["OPEN", "FULL"] } },
+    where: { status: "OPEN" },
     include: { course: true },
     orderBy: [{ year: "asc" }, { month: "asc" }, { startTime: "asc" }],
   });
