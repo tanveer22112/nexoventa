@@ -47,7 +47,7 @@ export default async function Home() {
     <section className="hero">
       <div className="shell hero-grid">
         <div className="hero-copy-block">
-          <p className="eyebrow">MEDICAL BILLING & RCM · GILGIT-BALTISTAN</p>
+          <p className="eyebrow">MEDICAL BILLING & RCM SOLUTIONS· GILGIT-BALTISTAN</p>
           <h1>Clean claims.<br /><span className="hero-accent">Faster reimbursements.</span><br />Fewer denials.</h1>
           <p className="hero-copy">Nexoventa supports healthcare providers with reliable medical billing, revenue cycle guidance, and practical training that keeps claims moving, reimbursements on time, and denials under control.</p>
           <div className="hero-actions">

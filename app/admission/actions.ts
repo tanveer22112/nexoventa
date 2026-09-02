@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
+import { isPublicBatchEligible } from "@/lib/batch-eligibility";
 import { admissionSchema } from "@/lib/validations/admission";
 
 export type AdmissionResult =
@@ -54,7 +55,7 @@ async function reserveAdmission(input: {
 }) {
     return db.$transaction(async (tx) => {
       const batch = await tx.batch.findUnique({ where: { id: input.batchId }, include: { course: true } });
-      if (!batch || batch.status !== "OPEN") throw new Error("BATCH_UNAVAILABLE");
+      if (!batch || !isPublicBatchEligible(batch)) throw new Error("BATCH_UNAVAILABLE");
 
       const existingStudent = await tx.student.findFirst({
         where: { OR: [{ email: input.email }, { phone: input.phone }] },
@@ -67,7 +68,7 @@ async function reserveAdmission(input: {
       }
 
       const reservation = await tx.batch.updateMany({
-        where: { id: input.batchId, status: "OPEN", reservedSeats: { lt: batch.capacity } },
+        where: { id: input.batchId, status: "OPEN", reservedSeats: { lt: batch.capacity }, course: { active: true } },
         data: { reservedSeats: { increment: 1 } },
       });
       if (reservation.count !== 1) throw new Error("BATCH_FULL");

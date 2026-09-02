@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { clearAdminSession, createAdminSession, getAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { verifyPassword } from "@/lib/password";
+import { hashPassword, verifyPassword } from "@/lib/password";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
@@ -324,7 +324,62 @@ export async function toggleAnnouncement(formData: FormData) {
   revalidatePath("/announcements");
 }
 
+const adminProfileSchema = z.object({
+  name: z.string().trim().min(2).max(100).optional().or(z.literal("")),
+  email: z.string().trim().email(),
+});
+
+export async function updateAdminProfile(formData: FormData) {
+  const admin = await requireMutation();
+  const parsed = adminProfileSchema.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+  });
+
+  if (!parsed.success) return;
+
+  const { name, email } = parsed.data;
+  await db.user.update({
+    where: { id: admin.id },
+    data: { name: name || null, email: email.toLowerCase() },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/settings");
+}
+
+const passwordChangeSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8),
+  confirmPassword: z.string().min(8),
+}).refine((value) => value.newPassword === value.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Passwords do not match.",
+});
+
+export async function changeAdminPassword(formData: FormData) {
+  const admin = await requireMutation();
+  const parsed = passwordChangeSchema.safeParse({
+    currentPassword: formData.get("currentPassword"),
+    newPassword: formData.get("newPassword"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!parsed.success) return;
+
+  const user = await db.user.findUnique({ where: { id: admin.id } });
+  if (!user || !verifyPassword(parsed.data.currentPassword, user.passwordHash)) return;
+
+  await db.user.update({
+    where: { id: admin.id },
+    data: { passwordHash: hashPassword(parsed.data.newPassword) },
+  });
+
+  revalidatePath("/admin/settings");
+}
+
 async function requireMutation() {
   const admin = await getAdmin();
   if (!admin) redirect("/admin/login");
+  return admin;
 }
