@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type ExportKind = "all" | "selected" | "active";
+type ExportKind = "all" | "selected";
 
 const exportDefinitions: Record<ExportKind, { label: string; sheetName: string; filename: string; emptyMessage: string }> = {
   all: {
@@ -21,16 +21,10 @@ const exportDefinitions: Record<ExportKind, { label: string; sheetName: string; 
     filename: "Nexoventa-Selected-Students",
     emptyMessage: "No selected students found.",
   },
-  active: {
-    label: "Active Enrolled Students",
-    sheetName: "Active Enrolled Students",
-    filename: "Nexoventa-Active-Enrolled-Students",
-    emptyMessage: "No active or enrolled students found.",
-  },
 };
 
 function isExportKind(value: string | null): value is ExportKind {
-  return value === "all" || value === "selected" || value === "active";
+  return value === "all" || value === "selected";
 }
 
 export async function GET(request: Request) {
@@ -41,7 +35,6 @@ export async function GET(request: Request) {
   if (!isExportKind(kind)) return NextResponse.json({ message: "Invalid export type." }, { status: 400 });
 
   const definition = exportDefinitions[kind];
-  // Application has no separate enrollment field, so CONFIRMED is the active/enrolled mapping.
   const statusFilter = kind === "all" ? undefined : { status: "CONFIRMED" as const };
   const applications = await db.application.findMany({
     where: statusFilter ? statusFilter : undefined,

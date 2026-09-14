@@ -3,12 +3,11 @@
 import { Download, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 
-type ExportKind = "all" | "selected" | "active";
+type ExportKind = "all" | "selected";
 
 const options: Array<{ kind: ExportKind; label: string }> = [
   { kind: "all", label: "All Applicants" },
   { kind: "selected", label: "Selected Students" },
-  { kind: "active", label: "Active/Enrolled Students" },
 ];
 
 export function ApplicationExport() {
