@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+.admin-phone-link { color: inherit; cursor: pointer; }
+.admin-phone-link:hover, .admin-phone-link:focus-visible { text-decoration: underline; }
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
