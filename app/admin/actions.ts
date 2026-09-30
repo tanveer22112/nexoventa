@@ -25,6 +25,7 @@ export async function logoutAdmin() {
 
 export async function updateApplicationStatus(formData: FormData) {
   await requireMutation();
+  const returnTo = getApplicationReturnPath(formData.get("returnTo"));
   const parsed = z.object({ id: z.string().min(1), status: z.enum(["PENDING", "CONFIRMED", "REJECTED", "CANCELLED", "WAITLISTED"]) }).safeParse({ id: formData.get("id"), status: formData.get("status") });
   if (!parsed.success) return;
 
@@ -67,11 +68,33 @@ export async function updateApplicationStatus(formData: FormData) {
       });
     });
   } catch (error) {
-    if (error instanceof Error && error.message === "BATCH_FULL") redirect("/admin/applications?error=batch-full");
-    redirect("/admin/applications?error=update-failed");
+    if (error instanceof Error && error.message === "BATCH_FULL") redirect(withApplicationError(returnTo, "batch-full"));
+    redirect(withApplicationError(returnTo, "update-failed"));
   }
 
-  redirect("/admin");
+  revalidatePath("/admin");
+  revalidatePath("/admin/applications");
+  revalidatePath("/admin/students");
+  revalidatePath("/admin/batches");
+  revalidatePath("/training");
+  redirect(returnTo);
+}
+
+function getApplicationReturnPath(value: FormDataEntryValue | null) {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) return "/admin";
+  try {
+    const url = new URL(value, "http://nexoventa.local");
+    if (url.origin !== "http://nexoventa.local" || !["/admin", "/admin/applications"].includes(url.pathname)) return "/admin";
+    return `${url.pathname}${url.search}`;
+  } catch {
+    return "/admin";
+  }
+}
+
+function withApplicationError(path: string, error: string) {
+  const url = new URL(path, "http://nexoventa.local");
+  url.searchParams.set("error", error);
+  return `${url.pathname}${url.search}`;
 }
 
 const courseInput = z.object({
@@ -281,20 +304,21 @@ export async function updateBatch(formData: FormData) {
 
 export async function updateBatchStatus(formData: FormData) {
   await requireMutation();
-  const id = z.string().min(1).parse(formData.get("id"));
-  const status = z.enum(batchStatusEnum).parse(formData.get("status"));
-  const batch = await db.batch.findUnique({ where: { id } });
-  if (!batch) return;
-
-  await db.batch.update({
-    where: { id },
-    data: {
-      status: status === "OPEN" && batch.reservedSeats >= batch.capacity ? "FULL" : status,
-    },
+  const parsed = z.object({ id: z.string().cuid(), status: z.enum(batchStatusEnum) }).safeParse({
+    id: formData.get("id"),
+    status: formData.get("status"),
   });
+  if (!parsed.success) redirect("/admin/batches?error=invalid-status");
+
+  const updated = await db.batch.updateMany({
+    where: { id: parsed.data.id },
+    data: { status: parsed.data.status },
+  });
+  if (updated.count !== 1) redirect("/admin/batches?error=batch-not-found");
 
   revalidatePath("/admin/batches");
   revalidatePath("/training");
+  redirect("/admin/batches?status=updated");
 }
 
 const announcementInput = z.object({ title: z.string().trim().min(2), slug: z.string().trim().min(2).regex(/^[a-z0-9-]+$/), content: z.string().trim().min(10) });

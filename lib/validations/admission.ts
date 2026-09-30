@@ -7,7 +7,7 @@ export const admissionSchema = z.object({
   whatsapp: z.string().trim().min(7, "Enter a valid WhatsApp number."),
   email: z.string().trim().email("Enter a valid email address.").transform((value) => value.toLowerCase()),
   education: z.string().trim().min(2, "Enter your education."),
-  batchId: z.string().cuid("Choose a valid training slot."),
+  batchId: z.string().cuid("Please select a training slot."),
   cnic: z.string().trim().optional(),
   occupation: z.string().trim().optional(),
   experience: z.string().trim().optional(),

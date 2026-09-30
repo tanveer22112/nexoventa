@@ -1,537 +1,535 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import {
   ArrowRight,
+  BriefcaseMedical,
   Check,
-  Code2,
-  CreditCard,
+  ClipboardCheck,
   FileCheck2,
+  GraduationCap,
   HeartPulse,
   Layers3,
+  MapPin,
   ShieldCheck,
+  TrendingUp,
   Users,
 } from "lucide-react";
 
+const stats = [
+  { value: "40+", label: "Experienced professionals" },
+  { value: "5–6", label: "Years in medical billing & RCM" },
+  { value: "6+", label: "Years of team experience" },
+  { value: "US", label: "Healthcare revenue cycle focus" },
+] as const;
+
 const capabilities = [
-  "Complete Medical Billing",
-  "End-to-End Revenue Cycle Management",
-  "Eligibility & Benefits Verification",
-  "Prior Authorization",
-  "Charge Entry",
-  "Claims Submission & Management",
-  "Payment Posting",
-  "Denial Management & Appeals",
-  "Accounts Receivable (A/R) Follow-Up",
-  "Insurance & Patient A/R Recovery",
+  {
+    number: "01",
+    icon: BriefcaseMedical,
+    title: "Medical Billing",
+    description:
+      "Clean claims, accurate coding support, and payer-ready submissions that reduce administrative friction.",
+  },
+  {
+    number: "02",
+    icon: Layers3,
+    title: "Revenue Cycle Management",
+    description:
+      "End-to-end oversight that strengthens billing performance across claims, payment flow, and follow-up.",
+  },
+  {
+    number: "03",
+    icon: ClipboardCheck,
+    title: "Denial Management",
+    description:
+      "Focused review and resolution strategies to reduce repeated denials and protect revenue continuity.",
+  },
+  {
+    number: "04",
+    icon: FileCheck2,
+    title: "Provider Credentialing",
+    description:
+      "Support for enrollment and credentialing processes so providers can move forward with less delay.",
+  },
+  {
+    number: "05",
+    icon: TrendingUp,
+    title: "Billing Audits",
+    description:
+      "Operational reviews that highlight gaps, improve accountability, and support more consistent revenue outcomes.",
+  },
+  {
+    number: "06",
+    icon: GraduationCap,
+    title: "Training & Mentorship",
+    description:
+      "Practical guidance that helps learners build confidence and capability in medical billing workflows.",
+  },
+] as const;
+
+const experiencePillars = [
+  "Claims management",
+  "A/R follow-up",
   "Credentialing",
-  "Provider Enrollment",
-  "Payer Enrollment",
-  "Medical Billing Audits",
-  "Revenue Cycle Optimization",
-  "Billing & Workflow Support",
-];
+  "Enrollment",
+  "Payment posting",
+  "Billing audits",
+  "Denial resolution",
+  "Workflow support",
+] as const;
 
 const reasons = [
   {
     icon: Users,
     title: "40+ Experienced Professionals",
-    text: "A dedicated team with 6+ years of experience across multiple areas of medical billing and RCM.",
+    text: "A dedicated team with broad operational and revenue-cycle knowledge to support healthcare providers with confidence.",
   },
   {
     icon: Layers3,
     title: "End-to-End RCM Expertise",
-    text: "Comprehensive support across the entire revenue cycle—from eligibility and claims to denials, A/R, credentialing, and enrollment.",
+    text: "Support across claims, reimbursement, denials, follow-up, and practice operations for a more stable revenue cycle.",
   },
   {
     icon: HeartPulse,
     title: "Multi-Specialty Capability",
-    text: "Experience supporting different specialties, practice structures, and healthcare organizations.",
+    text: "Experience supporting different practice structures and healthcare environments with practical billing support.",
   },
   {
-    icon: Code2,
+    icon: MapPin,
     title: "Technology Adaptability",
-    text: "Our team works across a broad range of healthcare and billing platforms and adapts to your existing systems.",
+    text: "Our team works within existing healthcare workflows and systems rather than forcing unnecessary disruption.",
   },
   {
     icon: ShieldCheck,
     title: "U.S.-Focused Expertise",
-    text: "Our processes and operations are designed around the requirements and complexities of the U.S. healthcare revenue cycle.",
+    text: "Processes built around the realities of the U.S. healthcare revenue cycle and payer environment.",
   },
   {
-    icon: FileCheck2,
+    icon: BriefcaseMedical,
     title: "One Reliable Partner",
-    text: "Instead of coordinating multiple vendors for different revenue cycle functions, you can rely on one experienced team for comprehensive support.",
+    text: "Instead of coordinating multiple vendors, you get a focused team ready to support the full billing picture.",
   },
-];
+] as const;
 
-const challenges = [
-  "Increasing claim denials",
-  "Aging accounts receivable",
-  "Slow or inconsistent payments",
-  "Credentialing or enrollment delays",
-  "Eligibility and authorization challenges",
-  "Billing workflow inefficiencies",
-  "Payer-related issues",
-  "Revenue cycle gaps",
-];
-
-const stats = [
+const approach = [
   {
-    value: "40+",
-    label: "Experienced professionals",
+    step: "01",
+    title: "Understand",
+    text: "We learn your practice, workflow, payer mix, and the challenges affecting your revenue cycle.",
   },
   {
-    value: "6+",
-    label: "Years of team experience",
+    step: "02",
+    title: "Manage",
+    text: "We support billing operations with clear oversight across claims, payment flow, and follow-up activity.",
   },
-];
+  {
+    step: "03",
+    title: "Improve",
+    text: "We identify gaps, address denials, and promote more consistent reimbursement performance over time.",
+  },
+  {
+    step: "04",
+    title: "Support",
+    text: "We continue to help your practice stay organized, accountable, and prepared for long-term operational stability.",
+  },
+] as const;
 
 export default function AboutPage() {
   return (
-    <main className="bg-white text-[var(--navy)]">
-      {/* Hero */}
-      <section className="border-b border-[var(--line)]">
-        <div className="mx-auto w-full max-w-[1160px] px-5 pb-14 pt-14 sm:px-6 sm:pt-16 lg:px-8 lg:pb-20 lg:pt-20">
-          <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+    <main className="bg-[var(--paper)] text-[var(--navy)]">
+      <section className="border-b border-[var(--line)] bg-[linear-gradient(180deg,#f9fbfe_0%,#f2f8fc_100%)]">
+        <div className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
             <div>
-              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
                 About Nexoventa
               </p>
 
-              <h1 className="max-w-3xl text-[clamp(3rem,7vw,5.25rem)] font-medium leading-[0.98] tracking-[-0.055em]">
-                Practical expertise,
-                <br />
-                <em className="font-normal">shared clearly.</em>
+              <h1 className="max-w-[620px] text-[clamp(3rem,6vw,5.25rem)] font-medium leading-[0.95] tracking-[-0.06em] text-[var(--navy)]">
+                Experienced RCM support,
+                <span className="block text-[var(--healthcare-blue)]">
+                  built around your practice.
+                </span>
               </h1>
+
+              <p className="mt-6 max-w-[560px] text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
+                Nexoventa helps healthcare providers manage medical billing and revenue cycle operations with accuracy, clarity, and practical support from a team that understands the demands of U.S. healthcare.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--deep-navy)] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--navy)]"
+                >
+                  Talk to Nexoventa
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--very-light-blue)]"
+                >
+                  Explore services
+                </Link>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#54686d]">
+                <span className="rounded-full border border-[var(--border)] bg-white px-3 py-2">
+                  Medical billing
+                </span>
+                <span className="rounded-full border border-[var(--border)] bg-white px-3 py-2">
+                  RCM support
+                </span>
+                <span className="rounded-full border border-[var(--border)] bg-white px-3 py-2">
+                  Healthcare providers
+                </span>
+              </div>
             </div>
 
-            <div className="lg:justify-self-end">
-              <p className="max-w-xl text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-                At <strong className="text-[var(--navy)]">Nexoventa</strong>, we
-                understand that running a successful healthcare practice
-                requires more than providing excellent patient care. Your
-                revenue cycle must also work efficiently, accurately, and
-                consistently.
-              </p>
+            <div className="relative lg:justify-self-end">
+              <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-[var(--soft-blue)] blur-3xl" />
+              <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[0_20px_50px_rgba(11,58,74,0.08)] sm:p-7">
+                <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] pb-4">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--healthcare-blue)]">
+                      Revenue operations
+                    </p>
+                    <p className="mt-2 text-lg font-semibold text-[var(--navy)]">
+                      Practice support overview
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-[var(--soft-blue)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--healthcare-blue)]">
+                    US-focused
+                  </span>
+                </div>
+
+                <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                  <div className="rounded-2xl border border-[var(--border)] bg-[var(--very-light-blue)] p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#54686d]">
+                      Team
+                    </p>
+                    <p className="mt-3 text-3xl font-medium tracking-[-0.06em] text-[var(--navy)]">
+                      40+
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-[var(--border)] bg-[var(--very-light-blue)] p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#54686d]">
+                      Experience
+                    </p>
+                    <p className="mt-3 text-3xl font-medium tracking-[-0.06em] text-[var(--navy)]">
+                      5–6
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-[var(--border)] bg-[var(--very-light-blue)] p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#54686d]">
+                      Focus
+                    </p>
+                    <p className="mt-3 text-3xl font-medium tracking-[-0.06em] text-[var(--navy)]">
+                      RCM
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--soft-blue)] p-4">
+                  <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.14em] text-[#54686d]">
+                    <span>Workflow</span>
+                    <span>Practice ready</span>
+                  </div>
+                  <div className="mt-4 space-y-3">
+                    {["Claims", "Follow-up", "Reimbursement"].map((item, index) => (
+                      <div key={item} className="flex items-center gap-3">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[10px] font-bold text-[var(--healthcare-blue)]">
+                          {index + 1}
+                        </span>
+                        <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/80">
+                          <div
+                            className="h-full rounded-full bg-[var(--healthcare-blue)]"
+                            style={{ width: `${65 + index * 12}%` }}
+                          />
+                        </div>
+                        <span className="text-xs font-medium text-[var(--navy)]">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section
-        className="mx-auto grid w-full max-w-[1160px] grid-cols-1 gap-4 px-5 py-6 sm:grid-cols-2 sm:px-6 lg:px-8"
-        aria-label="Nexoventa experience metrics"
-      >
-        {stats.map((item) => (
-          <div
-            key={item.label}
-            className="rounded-2xl border border-[var(--line)] bg-[#e6f1edb3] px-6 py-7 shadow-[0_10px_28px_rgba(18,63,82,0.04)]"
-          >
-            <strong className="block text-[clamp(2.5rem,5vw,3.5rem)] font-medium leading-none tracking-[-0.06em] text-[var(--navy)]">
-              {item.value}
-            </strong>
-            <span className="mt-3 block text-[11px] font-semibold uppercase tracking-[0.12em] text-[#54686d]">
-              {item.label}
-            </span>
-          </div>
-        ))}
+      <section className="mx-auto max-w-[1280px] px-5 py-6 sm:px-6 lg:px-8">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {stats.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl border border-[var(--border)] bg-white px-5 py-6 shadow-[0_12px_30px_rgba(11,58,74,0.04)]"
+            >
+              <div className="text-[clamp(2.1rem,4vw,3rem)] font-medium leading-none tracking-[-0.06em] text-[var(--navy)]">
+                {item.value}
+              </div>
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#54686d]">
+                {item.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* About */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14">
           <div>
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-              More than billing
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+              Who we are
             </p>
-            <h2 className="max-w-3xl text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-              More Than Medical Billing. A Complete Revenue Cycle Partner for
-              Your Practice.
+            <h2 className="max-w-[540px] text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+              More than medical billing. A complete revenue cycle partner.
             </h2>
           </div>
 
-          <div className="max-w-3xl space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
+          <div className="space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
             <p>
-              We are a{" "}
-              <strong className="text-[var(--navy)]">
-                U.S.-focused Medical Billing and Revenue Cycle Management (RCM)
-              </strong>{" "}
-              company, serving healthcare providers and medical practices
-              across the United States. Our team combines extensive industry
-              knowledge, specialized expertise, and a deep understanding of the
-              U.S. healthcare billing environment to help providers strengthen
-              their financial operations and simplify the complexities of
-              revenue cycle management.
+              Nexoventa is a U.S.-focused medical billing and revenue cycle management company helping healthcare providers manage the business side of patient care with greater clarity and consistency.
             </p>
-
             <p>
-              With a team of{" "}
-              <strong className="text-[var(--navy)]">
-                40+ experienced professionals, each with more than 6 years of
-                industry experience
-              </strong>
-              , Nexoventa has the expertise and capacity to support practices
-              of virtually any size—from independent physicians and small
-              practices to growing clinics and larger healthcare organizations.
+              We support practices with the processes that keep claims moving, reimbursements on track, and administrative burden from slowing down patient care and provider operations.
+            </p>
+            <p>
+              From billing workflows to denial handling, follow-up, and documentation support, our team is focused on helping practices operate with cleaner claims and a more stable revenue cycle.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Capabilities */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="max-w-4xl">
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-            End-to-end support
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mb-10 max-w-[760px]">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+            Capabilities
           </p>
-
-          <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-            Complete Medical Billing &amp; RCM Under One Roof
+          <h2 className="text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+            Complete RCM support, under one roof.
           </h2>
-
-          <div className="mt-6 max-w-3xl space-y-4 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-            <p>
-              Every practice is different. Your specialty, patient volume,
-              payer mix, workflow, and operational challenges all require a
-              different approach.
-            </p>
-
-            <p>
-              That&apos;s why Nexoventa provides{" "}
-              <strong className="text-[var(--navy)]">
-                comprehensive, end-to-end revenue cycle solutions
-              </strong>{" "}
-              designed around the specific needs of your practice.
-            </p>
-          </div>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 border-t border-[var(--line)] sm:grid-cols-2 lg:grid-cols-4">
-          {capabilities.map((item, index) => (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {capabilities.map(({ number, icon: Icon, title, description }) => (
             <article
-              key={item}
-              className="border-b border-[var(--line)] px-0 py-5 sm:px-5 lg:px-4"
+              key={title}
+              className="rounded-2xl border border-[var(--border)] bg-white p-6 shadow-[0_8px_24px_rgba(11,58,74,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(11,58,74,0.06)]"
             >
-              <div className="flex items-start gap-3">
-                <span className="pt-1 text-[10px] font-bold tracking-[0.15em] text-[var(--teal)]">
-                  {String(index + 1).padStart(2, "0")}
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--healthcare-blue)]">
+                  {number}
                 </span>
-
-                <h3 className="text-sm font-semibold leading-6 text-[var(--navy)]">
-                  {item}
-                </h3>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--soft-blue)] text-[var(--healthcare-blue)]">
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </span>
               </div>
+
+              <h3 className="mt-6 text-xl font-semibold tracking-[-0.03em] text-[var(--navy)]">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-[#5d6d70]">{description}</p>
             </article>
           ))}
         </div>
-
-        <p className="mt-7 max-w-3xl text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-          From the front end of the revenue cycle to final payment and A/R
-          recovery, our team is equipped to manage the processes that keep
-          your practice financially healthy.
-        </p>
       </section>
 
-      {/* Specialties */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:gap-14">
           <div>
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-              Specialty expertise
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+              Experience
             </p>
-
-            <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-              Expertise Across Specialties
+            <h2 className="max-w-[520px] text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+              Experience across the revenue cycle.
             </h2>
           </div>
 
-          <div className="max-w-3xl space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-            <p>
-              Whether you operate a small private practice, a multi-provider
-              clinic, or a larger healthcare organization, our experienced
-              professionals are equipped to work with a{" "}
-              <strong className="text-[var(--navy)]">
-                wide range of medical specialties and practice models
-              </strong>
-              .
+          <div className="rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[0_12px_30px_rgba(11,58,74,0.04)] sm:p-8">
+            <p className="max-w-[620px] text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
+              Whether a practice is focused on a small patient volume or a larger multi-provider workflow, Nexoventa brings practical experience and process discipline to the areas that influence reimbursement and operational stability.
             </p>
 
-            <p>
-              Our team understands that different specialties have different
-              billing requirements, payer challenges, documentation standards,
-              authorization processes, and reimbursement patterns. Rather than
-              applying the same approach to every provider, we work to
-              understand{" "}
-              <strong className="text-[var(--navy)]">
-                your practice, your specialty, your workflow, and your revenue
-                cycle goals
-              </strong>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Technology */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="grid overflow-hidden rounded-3xl border border-[var(--line)] bg-[#f3f7f4] lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="p-7 sm:p-10 lg:p-12">
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-              Technology-ready
-            </p>
-
-            <h2 className="max-w-2xl text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-              Experienced With the Technology You Already Use
-            </h2>
-
-            <div className="mt-6 max-w-2xl space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-              <p>
-                Your practice shouldn&apos;t have to change its entire
-                technology infrastructure just to work with an RCM company.
-              </p>
-
-              <p>
-                At Nexoventa, our professionals have experience working with a{" "}
-                <strong className="text-[var(--navy)]">
-                  wide range of EHR, EMR, practice management, clearinghouse,
-                  and medical billing platforms
-                </strong>
-                . Our technology adaptability allows us to integrate into your
-                existing workflow and work efficiently within the systems your
-                practice already relies on.
-              </p>
-
-              <p>
-                We focus on making the transition and day-to-day collaboration
-                as seamless as possible.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center border-t border-[var(--line)] bg-[var(--navy)] p-7 text-white sm:p-10 lg:border-l lg:border-t-0 lg:p-12">
-            <div>
-              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[#78d7cf]">
-                The Nexoventa approach
-              </p>
-
-              <p className="max-w-md text-3xl font-medium leading-tight tracking-[-0.04em] sm:text-4xl">
-                Your software.
-                <br />
-                Your workflow.
-                <br />
-                <span className="text-[#78d7cf]">Our expertise.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-              Our team
-            </p>
-
-            <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-              A Team Built on Experience
-            </h2>
-          </div>
-
-          <div className="max-w-3xl">
-            <div className="space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-              <p>
-                Behind Nexoventa is a team of{" "}
-                <strong className="text-[var(--navy)]">
-                  40+ experienced professionals
-                </strong>{" "}
-                specializing in different areas of the healthcare revenue
-                cycle.
-              </p>
-
-              <p>
-                With{" "}
-                <strong className="text-[var(--navy)]">
-                  6+ years of experience across our team members
-                </strong>
-                , our collective expertise extends across:
-              </p>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-2">
-              {[
-                "Medical Billing",
-                "RCM",
-                "Claims Management",
-                "Denial Management",
-                "A/R Recovery",
-                "Credentialing",
-                "Provider Enrollment",
-                "Insurance Enrollment",
-                "Payment Posting",
-                "Eligibility",
-                "Prior Authorization",
-                "Billing Audits",
-              ].map((item) => (
-                <span
+            <div className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {experiencePillars.map((item) => (
+                <div
                   key={item}
-                  className="rounded-full border border-[var(--line)] px-3 py-2 text-xs font-medium text-[var(--navy)]"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--very-light-blue)] px-3 py-3 text-sm font-medium text-[var(--navy)]"
                 >
                   {item}
-                </span>
+                </div>
               ))}
             </div>
-
-            <p className="mt-8 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-              This depth of experience allows us to build specialized teams
-              around the needs of each client while maintaining consistent
-              processes, accountability, and quality.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Revenue impact */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <section className="bg-[var(--deep-navy)] text-white">
+        <div className="mx-auto grid max-w-[1280px] gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[1.06fr_0.94fr] lg:px-8 lg:py-20">
           <div>
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-              Revenue impact
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[#9ed4fb]">
+              Technology
             </p>
+            <h2 className="max-w-[620px] text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-white">
+              Technology that fits your workflow.
+            </h2>
+            <p className="mt-6 max-w-[560px] text-base leading-7 text-[#cfe5f1] sm:text-[17px] sm:leading-8">
+              Nexoventa works within the systems and workflows healthcare providers already rely on, helping reduce disruption while improving visibility, accountability, and process consistency across the billing cycle.
+            </p>
+          </div>
 
-            <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-              Built for Your Practice. Focused on Your Revenue.
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-sm sm:p-8">
+            <div className="grid gap-4">
+              {[
+                ["Existing systems", "Support that works with the way your practice already operates."],
+                ["Operational clarity", "Clearer process visibility across claims, follow-up, and reimbursement."],
+                ["Revenue continuity", "Support designed to reduce avoidable friction and improve billing consistency."],
+              ].map(([title, body]) => (
+                <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-lg font-semibold text-white">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#cfe5f1]">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+          <div>
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+              Our team
+            </p>
+            <h2 className="max-w-[520px] text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+              Experienced people behind every claim.
             </h2>
           </div>
 
-          <div>
-            <div className="space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-              <p>We believe your billing partner should do more than submit claims.</p>
+          <div className="rounded-[30px] border border-[var(--border)] bg-[var(--soft-blue)] p-6 shadow-[0_12px_30px_rgba(11,58,74,0.04)] sm:p-8">
+            <div className="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+              <div className="rounded-[24px] border border-[var(--border)] bg-white p-6">
+                <div className="text-[clamp(2.4rem,4vw,3.4rem)] font-medium leading-none tracking-[-0.06em] text-[var(--navy)]">
+                  40+
+                </div>
+                <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#54686d]">
+                  Professionals
+                </p>
+                <div className="mt-8 border-t border-[var(--line)] pt-5">
+                  <div className="text-[clamp(2.1rem,3vw,2.7rem)] font-medium leading-none tracking-[-0.06em] text-[var(--navy)]">
+                    6+
+                  </div>
+                  <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#54686d]">
+                    Years experience
+                  </p>
+                </div>
+              </div>
 
-              <p>
-                At Nexoventa, we work alongside your practice to identify
-                revenue leakage, address billing challenges, reduce preventable
-                denials, improve A/R performance, and create more efficient
-                revenue cycle processes.
-              </p>
-
-              <p>Whether your practice is dealing with:</p>
+              <div>
+                <p className="text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
+                  Behind every billing workflow is a team with practical knowledge across claims, denials, eligibility, follow-up, and provider support.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {[
+                    "Medical Billing",
+                    "RCM",
+                    "Claims Management",
+                    "Denial Management",
+                    "A/R Recovery",
+                    "Credentialing",
+                    "Enrollment",
+                    "Payment Posting",
+                  ].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-[var(--border)] bg-white px-3 py-2 text-xs font-medium text-[var(--navy)]"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-
-            <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-              {challenges.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 rounded-xl border border-[var(--line)] px-4 py-4 text-sm leading-6 text-[var(--navy)]"
-                >
-                  <Check
-                    className="mt-0.5 h-4 w-4 shrink-0 text-[var(--teal)]"
-                    aria-hidden="true"
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-7 text-base font-semibold leading-7 text-[var(--navy)] sm:text-[17px]">
-              Our team is prepared to help.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Why choose Nexoventa */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
-        <div className="max-w-4xl">
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
-            Why choose us
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mb-8 max-w-[700px]">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+            Our approach
           </p>
-
-          <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] font-medium leading-[1.05] tracking-[-0.055em]">
-            Why Healthcare Providers Choose Nexoventa
+          <h2 className="text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+            A more organized revenue cycle starts here.
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {reasons.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <article
-                key={item.title}
-                className="rounded-2xl border border-[var(--line)] bg-white p-6 transition-shadow duration-200 hover:shadow-[0_12px_32px_rgba(18,63,82,0.06)] sm:p-7"
-              >
-                <Icon
-                  className="h-5 w-5 text-[var(--teal)]"
-                  aria-hidden="true"
-                />
-
-                <h3 className="mt-5 text-xl font-medium tracking-[-0.025em] text-[var(--navy)] sm:text-2xl">
-                  {item.title}
-                </h3>
-
-                <p className="mt-3 text-base leading-7 text-[#5d6d70]">
-                  {item.text}
-                </p>
-              </article>
-            );
-          })}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {approach.map(({ step, title, text }) => (
+            <article key={step} className="rounded-2xl border border-[var(--border)] bg-white p-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--healthcare-blue)]">{step}</p>
+              <h3 className="mt-5 text-2xl font-medium tracking-[-0.04em] text-[var(--navy)]">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-[#5d6d70]">{text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="mx-auto w-full max-w-[1160px] px-5 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:pb-24 lg:pt-24">
-        <div className="overflow-hidden rounded-3xl bg-[#e7efe9]">
-          <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12">
+      <section className="mx-auto max-w-[1280px] px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mb-10 max-w-[760px]">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
+            Why Nexoventa
+          </p>
+          <h2 className="text-[clamp(2.4rem,4vw,4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+            Why healthcare providers choose Nexoventa
+          </h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {reasons.map(({ icon: Icon, title, text }) => (
+            <article
+              key={title}
+              className="rounded-2xl border border-[var(--border)] bg-white p-6 shadow-[0_8px_24px_rgba(11,58,74,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(11,58,74,0.06)]"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--soft-blue)] text-[var(--healthcare-blue)]">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-[var(--navy)]">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-[#5d6d70]">{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1280px] px-5 pb-20 pt-8 sm:px-6 lg:px-8 lg:pb-24">
+        <div className="rounded-[30px] bg-[var(--soft-blue)] p-7 sm:p-9 lg:p-12">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--teal)]">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--healthcare-blue)]">
                 Let&apos;s work together
               </p>
-
-              <h2 className="max-w-2xl text-[clamp(2.2rem,4vw,3.2rem)] font-medium leading-[1.08] tracking-[-0.05em]">
-                Let Nexoventa Strengthen Your Revenue Cycle
+              <h2 className="max-w-[680px] text-[clamp(2.3rem,4vw,3.4rem)] font-medium leading-[0.98] tracking-[-0.06em] text-[var(--navy)]">
+                Let Nexoventa strengthen your revenue cycle.
               </h2>
             </div>
 
-            <Link
-              href="/contact"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#123f52]"
-            >
-              Partner with Nexoventa
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--deep-navy)] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--navy)]"
+              >
+                Talk to Nexoventa
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--very-light-blue)]"
+              >
+                Contact us
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <div className="mx-auto mt-8 max-w-3xl space-y-5 text-base leading-7 text-[#5d6d70] sm:text-[17px] sm:leading-8">
-          <p>
-            Your responsibility is to take care of your patients.{" "}
-            <strong className="text-[var(--navy)]">
-              Our responsibility is to help take care of your revenue cycle.
-            </strong>
-          </p>
-
-          <p>
-            At <strong className="text-[var(--navy)]">Nexoventa</strong>, we
-            combine experienced professionals, proven processes, technology
-            expertise, and dedicated client support to help healthcare
-            providers operate more efficiently and build a stronger, more
-            predictable revenue cycle.
-          </p>
-
-          <p>
-            <strong className="text-[var(--navy)]">
-              Your Practice. Your Revenue. Our Expertise.
-            </strong>
-          </p>
-
-          <p>
-            <strong className="text-[var(--navy)]">
-              Partner with Nexoventa and let your team focus on patient care
-              while we focus on the business behind it.
-            </strong>
-          </p>
         </div>
       </section>
     </main>

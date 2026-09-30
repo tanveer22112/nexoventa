@@ -12,7 +12,8 @@ export type AdmissionResult =
 export async function submitAdmission(formData: FormData): Promise<AdmissionResult> {
   const parsed = admissionSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
-    return { ok: false, message: "Please review the highlighted fields.", fieldErrors: parsed.error.flatten().fieldErrors };
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    return { ok: false, message: fieldErrors.batchId?.[0] || "Please review the highlighted fields.", fieldErrors };
   }
 
   const input = parsed.data;

@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     where: statusFilter ? statusFilter : undefined,
     select: {
       student: { select: { fullName: true, phone: true, email: true } },
-      batch: { select: { identifier: true, course: { select: { name: true } } } },
+      batch: { select: { identifier: true, startTime: true, endTime: true, course: { select: { name: true } } } },
       appliedAt: true,
       status: true,
     },
@@ -58,6 +58,7 @@ export async function GET(request: Request) {
     Email: application.student.email,
     Course: application.batch.course.name,
     "Batch / Slot": application.batch.identifier,
+    "Training Slot": `${application.batch.startTime} – ${application.batch.endTime}`,
     "Application Date": application.appliedAt.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",
@@ -68,7 +69,7 @@ export async function GET(request: Request) {
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(rows);
-  for (const cell of ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"]) {
+  for (const cell of ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1"]) {
     worksheet[cell].s = { font: { bold: true } };
   }
   worksheet["!cols"] = [
@@ -78,6 +79,7 @@ export async function GET(request: Request) {
     { wch: 32 },
     { wch: 24 },
     { wch: 18 },
+    { wch: 21 },
     { wch: 20 },
     { wch: 14 },
   ];

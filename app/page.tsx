@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BriefcaseMedical, ClipboardCheck, GraduationCap, MapPin, ShieldCheck, TrendingUp, Users } from "lucide-react";
 import { db } from "@/lib/db";
 import { buttonVariants } from "@/components/ui/button";
+import { getAvailableSeats } from "@/lib/batch-eligibility";
 
 const services = [
   { title: "Medical Billing", text: "Clean claim preparation, coding support, and payer-ready submissions for healthcare providers." },
@@ -14,8 +15,8 @@ const services = [
 
 const whyItems = [
   { value: "5–6 Years", label: "Medical billing & RCM experience" },
-  { value: "2+ Years", label: "Mentoring learners in practical billing workflows" },
-  { value: "Year-Round", label: "Training available across four daily slots" },
+  { value: "2+ Years", label: "Mentoring & training" },
+  { value: "Year-Round", label: "Training availability" },
   { value: "Gilgit-Baltistan", label: "Based in Karim Town, Gilgit-Baltistan" },
 ] as const;
 
@@ -40,7 +41,7 @@ export default async function Home() {
   });
 
   const trainingCards = trainingBatches.length > 0 ? trainingBatches : [];
-  const availableSeats = featuredBatch ? Math.max(featuredBatch.capacity - featuredBatch.reservedSeats, 0) : 0;
+  const availableSeats = featuredBatch ? getAvailableSeats(featuredBatch) : 0;
   const featuredOpen = featuredBatch ? featuredBatch.status === "OPEN" && availableSeats > 0 : false;
 
   return <main>
@@ -51,13 +52,13 @@ export default async function Home() {
           <h1>Clean claims.<br /><span className="hero-accent">Faster reimbursements.</span><br />Fewer denials.</h1>
           <p className="hero-copy">Nexoventa supports healthcare providers with reliable medical billing, revenue cycle guidance, and practical training that keeps claims moving, reimbursements on time, and denials under control.</p>
           <div className="hero-actions">
-            <Link className={buttonVariants({ size: "lg" })} href="/training">Explore Training <ArrowRight size={17} /></Link>
-            <Link className={buttonVariants({ size: "lg" })} href="/services">Our Services <ArrowRight size={17} /></Link>
+            <Link className={buttonVariants({ size: "lg" })} href="/admission">Apply for Training <ArrowRight size={17} /></Link>
+            <Link className={buttonVariants({ size: "lg", variant: "outline" })} href="/services">Explore Services <ArrowRight size={17} /></Link>
           </div>
         </div>
         <div className="hero-aside">
           {featuredBatch ? (
-            <div className="training-availability-card">
+            <div className="training-availability-card hero-training-card">
               <p className="eyebrow eyebrow-card">Training · {monthLabel(featuredBatch.month, featuredBatch.year)}</p>
               <h3>{featuredBatch.course.name}</h3>
               <div className="training-card-meta">
@@ -68,7 +69,7 @@ export default async function Home() {
                 <strong>{availableSeats} / {featuredBatch.capacity} seats available</strong>
                 <small>{featuredOpen ? `${featuredBatch.capacity - availableSeats} reserved` : "Registration closed"}</small>
               </div>
-              <Link className="text-link" href="/training">View Training <ArrowRight size={15} /></Link>
+              <Link className={`${buttonVariants({ size: "lg" })} hero-training-cta`} href={`/admission?batch=${featuredBatch.id}`}>Apply for Training <ArrowRight size={15} /></Link>
             </div>
           ) : (
             <div className="training-availability-card placeholder-card">
@@ -84,9 +85,9 @@ export default async function Home() {
 
     <section className="proof-strip">
       <div className="shell proof-grid">
-        <div><strong>5–6</strong><span>years in medical billing & RCM</span></div>
-        <div><strong>2+</strong><span>years mentoring future billers</span></div>
-        <div><strong>4</strong><span>daily training slots, year-round</span></div>
+        <div><strong>5–6 Years</strong><span>Medical Billing & RCM Experience</span></div>
+        <div><strong>2+ Years</strong><span>Mentoring Future Billers</span></div>
+        <div><strong>4 Slots</strong><span>Daily Training Availability</span></div>
       </div>
     </section>
 
@@ -137,7 +138,7 @@ export default async function Home() {
         {trainingCards.length > 0 ? (
           <div className="training-preview-grid">
             {trainingCards.map((batch) => {
-              const remaining = Math.max(batch.capacity - batch.reservedSeats, 0);
+              const remaining = getAvailableSeats(batch);
               const full = batch.status === "FULL" || remaining === 0;
               return <article className="preview-slot" key={batch.id}>
                 <span className={full ? "status status-full" : "status"}>{full ? "Registration closed" : "Open"}</span>
@@ -169,7 +170,7 @@ export default async function Home() {
           <p className="eyebrow">Ready when you are</p>
           <h2>Let&apos;s make the next claim count.</h2>
         </div>
-        <Link className={buttonVariants({ size: "lg" })} href="/contact">Talk to Nexoventa <ArrowRight size={17} /></Link>
+        <Link className={buttonVariants({ size: "lg" })} href="/contact">Talk to NEXOVENTA <ArrowRight size={17} /></Link>
       </div>
     </section>
   </main>;

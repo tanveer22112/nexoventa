@@ -4,8 +4,9 @@ import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default async function BatchesPage() {
+export default async function BatchesPage({ searchParams }: { searchParams: Promise<{ status?: string; error?: string }> }) {
   await requireAdmin();
+  const params = await searchParams;
   const [courses, batches] = await Promise.all([
     db.course.findMany({ orderBy: { name: "asc" } }),
     db.batch.findMany({ include: { course: true }, orderBy: [{ year: "desc" }, { month: "desc" }, { startTime: "asc" }] }),
@@ -13,6 +14,9 @@ export default async function BatchesPage() {
 
   return <main className="admin-page"><div className="shell">
     <div className="admin-top"><div><p className="eyebrow">Training operations</p><h1>Batches</h1></div></div>
+    {params.status === "updated" && <p className="application-feedback success" role="status">Batch status updated.</p>}
+    {params.error === "invalid-status" && <p className="admin-error-message" role="alert">Choose a valid batch status and try again.</p>}
+    {params.error === "batch-not-found" && <p className="admin-error-message" role="alert">That batch could not be found. Refresh and try again.</p>}
     <form action={createBatch} className="admin-form">
       <BatchFields courses={courses} />
       <button className="admin-action primary" type="submit">Create batch</button>
