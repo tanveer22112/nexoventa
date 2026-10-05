@@ -1,3 +1,5 @@
+import { db } from "@/lib/db";
+
 export type PublicBatchLike = {
   status: string;
   reservedSeats: number;
@@ -15,4 +17,14 @@ export function isPublicBatchEligible(batch: PublicBatchLike) {
 
 export function getAvailableSeats(batch: PublicBatchLike) {
   return Math.max(batch.capacity - batch.reservedSeats, 0);
+}
+
+export async function getPublicTrainingBatches() {
+  const batches = await db.batch.findMany({
+    where: { status: "OPEN", course: { active: true } },
+    include: { course: true },
+    orderBy: [{ year: "desc" }, { month: "desc" }, { startTime: "asc" }],
+  });
+
+  return batches.filter(isPublicBatchEligible);
 }

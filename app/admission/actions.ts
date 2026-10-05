@@ -20,13 +20,17 @@ export async function submitAdmission(formData: FormData): Promise<AdmissionResu
   try {
     const result = await reserveAdmission(input);
 
+    revalidatePath("/");
     revalidatePath("/training");
+    revalidatePath("/admission");
     return { ok: true, ...result };
   } catch (error) {
     if (isSerializationFailure(error)) {
       try {
         const result = await reserveAdmission(input);
+        revalidatePath("/");
         revalidatePath("/training");
+        revalidatePath("/admission");
         return { ok: true, ...result };
       } catch (retryError) {
         error = retryError;

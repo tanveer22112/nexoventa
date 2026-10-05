@@ -76,7 +76,7 @@ export async function updateApplicationStatus(formData: FormData) {
   revalidatePath("/admin/applications");
   revalidatePath("/admin/students");
   revalidatePath("/admin/batches");
-  revalidatePath("/training");
+  revalidatePublicTraining();
   redirect(returnTo);
 }
 
@@ -263,7 +263,7 @@ export async function createBatch(formData: FormData) {
     },
   });
   revalidatePath("/admin/batches");
-  revalidatePath("/training");
+  revalidatePublicTraining();
 }
 
 export async function updateBatch(formData: FormData) {
@@ -317,8 +317,14 @@ export async function updateBatchStatus(formData: FormData) {
   if (updated.count !== 1) redirect("/admin/batches?error=batch-not-found");
 
   revalidatePath("/admin/batches");
-  revalidatePath("/training");
+  revalidatePublicTraining();
   redirect("/admin/batches?status=updated");
+}
+
+function revalidatePublicTraining() {
+  revalidatePath("/");
+  revalidatePath("/training");
+  revalidatePath("/admission");
 }
 
 const announcementInput = z.object({ title: z.string().trim().min(2), slug: z.string().trim().min(2).regex(/^[a-z0-9-]+$/), content: z.string().trim().min(10) });

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, BriefcaseMedical, ClipboardCheck, GraduationCap, MapPin, ShieldCheck, TrendingUp, Users } from "lucide-react";
-import { db } from "@/lib/db";
 import { buttonVariants } from "@/components/ui/button";
-import { getAvailableSeats } from "@/lib/batch-eligibility";
+import { getAvailableSeats, getPublicTrainingBatches } from "@/lib/batch-eligibility";
+
+export const dynamic = "force-dynamic";
 
 const services = [
   { title: "Medical Billing", text: "Clean claim preparation, coding support, and payer-ready submissions for healthcare providers." },
@@ -33,16 +34,10 @@ function formatDays(daysOfWeek: string) {
 }
 
 export default async function Home() {
-  const [featuredBatch, ...trainingBatches] = await db.batch.findMany({
-    where: { status: { in: ["OPEN", "FULL"] } },
-    include: { course: true },
-    orderBy: [{ year: "asc" }, { month: "asc" }, { startTime: "asc" }],
-    take: 5,
-  });
-
-  const trainingCards = trainingBatches.length > 0 ? trainingBatches : [];
+  const batches = await getPublicTrainingBatches();
+  const [featuredBatch] = batches;
+  const trainingCards = batches.slice(0, 5);
   const availableSeats = featuredBatch ? getAvailableSeats(featuredBatch) : 0;
-  const featuredOpen = featuredBatch ? featuredBatch.status === "OPEN" && availableSeats > 0 : false;
 
   return <main>
     <section className="hero">
@@ -67,15 +62,15 @@ export default async function Home() {
               </div>
               <div className="training-card-seats">
                 <strong>{availableSeats} / {featuredBatch.capacity} seats available</strong>
-                <small>{featuredOpen ? `${featuredBatch.capacity - availableSeats} reserved` : "Registration closed"}</small>
+                <small>{featuredBatch.reservedSeats} reserved</small>
               </div>
               <Link className={`${buttonVariants({ size: "lg" })} hero-training-cta`} href={`/admission?batch=${featuredBatch.id}`}>Apply for Training <ArrowRight size={15} /></Link>
             </div>
           ) : (
             <div className="training-availability-card placeholder-card">
               <p className="eyebrow eyebrow-card">Training</p>
-              <h3>Medical Billing</h3>
-              <p>Training schedules are updated as batches open. Check the latest intake and availability.</p>
+              <h3>No upcoming training currently available.</h3>
+              <p>Please check back soon for the next intake.</p>
               <Link className="text-link" href="/training">View Training <ArrowRight size={15} /></Link>
             </div>
           )}
@@ -151,15 +146,15 @@ export default async function Home() {
             })}
           </div>
         ) : (
-          <div className="preview-empty">Training batches will appear here as upcoming slots are added to the system.</div>
+          <div className="preview-empty">No upcoming training currently available.</div>
         )}
 
         <div className="training-preview-callout">
           <div>
-            <strong>Ready to start your medical billing career?</strong>
-            <span>Apply for the next available intake and begin with focused, practical training.</span>
+            <strong>{trainingCards.length > 0 ? "Ready to start your medical billing career?" : "No upcoming training currently available."}</strong>
+            <span>{trainingCards.length > 0 ? "Apply for the next available intake and begin with focused, practical training." : "Please check back soon for the next intake."}</span>
           </div>
-          <Link className="text-link" href="/admission">Apply for Training <ArrowRight size={16} /></Link>
+          <Link className="text-link" href={trainingCards.length > 0 ? "/admission" : "/contact"}>{trainingCards.length > 0 ? "Apply for Training" : "Contact us"} <ArrowRight size={16} /></Link>
         </div>
       </div>
     </section>
