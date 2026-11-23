@@ -1,4 +1,4 @@
-import { createCourse, toggleCourse, updateCourse, updateCourseFee } from "../actions";
+import { createCourse, toggleCourse, updateCourse } from "../actions";
 import { CourseDeleteConfirmation, PendingSubmitButton } from "@/components/admin/course-actions";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -9,15 +9,14 @@ const successMessages: Record<string, string> = {
   created: "Course created successfully.",
   updated: "Course updated. The new name is shown wherever this course is referenced.",
   deleted: "Unused course deleted successfully.",
-  "fee-updated": "Course fee updated successfully.",
 };
 
 const errorMessages: Record<string, string> = {
-  invalid: "Check the required fields and enter a valid course name, slug, duration, description, and fee.",
+  invalid: "Check the required fields and enter a valid course name, slug, duration, and description.",
   "slug-taken": "That slug is already in use. Choose a different slug.",
   "not-found": "That course could not be found. Refresh the page and try again.",
   "course-not-found": "That course could not be found. Refresh the page and try again.",
-  "course-in-use": "This course is linked to batches or historical application, student, or payment records. Nothing was deleted; deactivate the course to remove it from public listings.",
+  "course-in-use": "This course is linked to batches or historical application or student records. Nothing was deleted; deactivate the course to remove it from public listings.",
   "course-changed": "The course or its related records changed during this action. Refresh the page and try again.",
 };
 
@@ -43,7 +42,6 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
           <span>Description</span>
           <textarea name="description" rows={3} minLength={10} maxLength={2000} required />
         </label>
-        <Field label="Fee (PKR, optional)" name="fee" type="number" required={false} min="0" max="99999999" step="0.01" />
         <PendingSubmitButton pendingLabel="Creating course...">Create course</PendingSubmitButton>
       </form>
 
@@ -54,7 +52,7 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
         <div className="admin-table-scroll">
           <table>
             <thead>
-              <tr><th>Name</th><th>Slug</th><th>Batches</th><th>Course fee</th><th>Status</th><th>Actions</th></tr>
+              <tr><th>Name</th><th>Slug</th><th>Batches</th><th>Status</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {courses.map((course) => (
@@ -62,13 +60,6 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
                   <td><strong>{course.name}</strong><small>{course.description}</small></td>
                   <td>{course.slug}</td>
                   <td>{course._count.batches}</td>
-                  <td>
-                    <form action={updateCourseFee} className="status-form">
-                      <input type="hidden" name="id" value={course.id} />
-                      <input className="course-fee-input" name="fee" type="number" min="0" max="99999999" step="0.01" defaultValue={course.fee?.toString() ?? ""} aria-label={`Course fee in PKR for ${course.name}`} placeholder="Not set" />
-                      <PendingSubmitButton className="course-fee-submit" pendingLabel="Saving...">Save fee</PendingSubmitButton>
-                    </form>
-                  </td>
                   <td>{course.active ? "Active" : "Inactive"}</td>
                   <td>
                     <div className="course-row-actions">
@@ -83,7 +74,6 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
                             <span>Description</span>
                             <textarea name="description" rows={4} minLength={10} maxLength={2000} defaultValue={course.description} required />
                           </label>
-                          <Field label="Fee (PKR, optional)" name="fee" type="number" required={false} min="0" max="99999999" step="0.01" value={course.fee?.toString() ?? ""} />
                           <PendingSubmitButton pendingLabel="Saving changes...">Save changes</PendingSubmitButton>
                         </form>
                       </details>

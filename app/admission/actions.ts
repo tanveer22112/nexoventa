@@ -6,7 +6,7 @@ import { isPublicBatchEligible } from "@/lib/batch-eligibility";
 import { admissionSchema } from "@/lib/validations/admission";
 
 export type AdmissionResult =
-  | { ok: true; name: string; phone: string; applicationId: string; batchId: string; batchIdentifier: string; courseName: string; fee: string | null }
+  | { ok: true; name: string; phone: string; applicationId: string; batchId: string; batchIdentifier: string; courseName: string }
   | { ok: false; message: string; fieldErrors?: Record<string, string[]> };
 
 export async function submitAdmission(formData: FormData): Promise<AdmissionResult> {
@@ -89,7 +89,6 @@ async function reserveAdmission(input: {
         batchId: batch.id,
         batchIdentifier: batch.identifier,
         courseName: batch.course.name,
-        fee: batch.course.fee?.toString() ?? null,
       };
     }, { isolationLevel: "Serializable" });
 }

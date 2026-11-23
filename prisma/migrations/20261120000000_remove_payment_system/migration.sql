@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS "Payment";
+
+ALTER TABLE "Course" DROP COLUMN IF EXISTS "fee";
+
+DROP TYPE IF EXISTS "PaymentMethod";
+DROP TYPE IF EXISTS "PaymentStatus";

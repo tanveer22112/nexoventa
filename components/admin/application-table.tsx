@@ -21,7 +21,7 @@ export type AdminApplicationRow = {
     experience: string | null;
     address: string | null;
   };
-  batch: { identifier: string; startTime: string; endTime: string; course: { name: string; fee: string | null } };
+  batch: { identifier: string; startTime: string; endTime: string; course: { name: string } };
   notes: string | null;
   appliedAt: string;
   status: ApplicationStatus;
@@ -118,7 +118,7 @@ export function ApplicationTable({ applications, returnTo }: { applications: Adm
       )}
       <div className="admin-table-scroll">
         <table>
-          <thead><tr><th className="application-select-cell"><label><input ref={selectAllRef} type="checkbox" checked={allRowsSelected} disabled={rows.length === 0 || bulkDeleting} onChange={(event) => setSelectedIds(event.currentTarget.checked ? rows.map((application) => application.id) : [])} /><span>Select All</span></label></th><th>Student</th><th>Training slot</th><th>Course / batch</th><th>Course fee</th><th>Submitted information</th><th>Applied</th><th>Admission</th><th>Review actions</th></tr></thead>
+          <thead><tr><th className="application-select-cell"><label><input ref={selectAllRef} type="checkbox" checked={allRowsSelected} disabled={rows.length === 0 || bulkDeleting} onChange={(event) => setSelectedIds(event.currentTarget.checked ? rows.map((application) => application.id) : [])} /><span>Select All</span></label></th><th>Student</th><th>Training slot</th><th>Course / batch</th><th>Submitted information</th><th>Applied</th><th>Admission</th><th>Review actions</th></tr></thead>
           <tbody>
             {rows.map((application) => {
               const phoneUrl = whatsappUrlForNumber(application.student.phone);
@@ -128,7 +128,6 @@ export function ApplicationTable({ applications, returnTo }: { applications: Adm
                   <td><strong>{application.student.fullName}</strong><small>{phoneUrl ? <a className="admin-phone-link" href={phoneUrl} target="_blank" rel="noopener noreferrer">{application.student.phone}</a> : application.student.phone} · {application.student.email}</small></td>
                   <td><span className="training-slot-badge">{application.batch.startTime} – {application.batch.endTime}</span></td>
                   <td>{application.batch.course.name}<small>{application.batch.identifier}</small></td>
-                  <td>{application.batch.course.fee ? `PKR ${application.batch.course.fee}` : "Not set"}</td>
                   <td>
                     <details className="application-submitted-info">
                       <summary>View details</summary>
@@ -168,7 +167,7 @@ export function ApplicationTable({ applications, returnTo }: { applications: Adm
                 </tr>
               );
             })}
-            {rows.length === 0 && <tr><td colSpan={9}><div className="empty-state">No applications match these filters.</div></td></tr>}
+            {rows.length === 0 && <tr><td colSpan={8}><div className="empty-state">No applications match these filters.</div></td></tr>}
           </tbody>
         </table>
       </div>

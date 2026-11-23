@@ -63,7 +63,7 @@ export function CourseDeleteConfirmation({
         <p className="eyebrow">Permanent action</p>
         <h2 id={`delete-course-title-${courseId}`}>Delete course?</h2>
         <p id={`delete-course-description-${courseId}`}>
-          You are deleting <strong>{courseName}</strong>. This cannot be undone. A course can only be deleted when it has no batches, applications, students, or payment history. Any linked records will block deletion and remain unchanged.
+          You are deleting <strong>{courseName}</strong>. This cannot be undone. A course can only be deleted when it has no batches, applications, or students. Any linked records will block deletion and remain unchanged.
           {batchCount > 0 && ` This course currently has ${batchCount} ${batchCount === 1 ? "batch" : "batches"}.`}
         </p>
         <form action={deleteCourse}>

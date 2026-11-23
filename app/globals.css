@@ -550,19 +550,6 @@ main[class*="bg-[var(--paper)]"] a.rounded-full:nth-child(2) { background: #0C10
   .training-slot-badge { white-space: normal; }
 }
 
-.payment-instructions { margin: 22px 0; padding: 16px; border: 1px solid var(--line); background: #080B09; }
-.payment-instructions .eyebrow { margin-bottom: 8px; color: var(--brand-primary-muted); }
-.payment-instructions > p:last-child { margin: 0; color: #D4DBD3; font-size: 13px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
-.payment-instructions dl { display: grid; gap: 10px; margin: 0; }
-.payment-instruction-row { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(0, 2fr) 36px; align-items: center; gap: 10px; padding-top: 9px; border-top: 1px solid var(--line); }
-.payment-instruction-row dt { color: #A7B0B8; font-size: 12px; }
-.payment-instruction-row dd { min-width: 0; margin: 0; color: var(--foreground); font-size: 13px; font-weight: 650; overflow-wrap: anywhere; }
-.copy-payment-detail { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 6px; background: #11171A; color: var(--brand-primary-muted); cursor: pointer; }
-.copy-payment-detail:hover, .copy-payment-detail:focus-visible { border-color: var(--brand-primary-border-strong); color: var(--brand-primary); outline: 0; }
-.payment-copy-error { grid-column: 2 / -1; color: #FFAAA2; font-size: 11px; }
-.payment-policy-notice { margin: 0 0 22px; padding: 14px 16px; border-left: 3px solid var(--brand-primary); background: #080B09; color: #D4DBD3; font-size: 13px; line-height: 1.75; }
-.payment-policy-notice strong { color: var(--foreground); }
-.payment-pending-note { margin: 13px 0 0; color: #A7B0B8; font-size: 12px; line-height: 1.6; }
 .whatsapp-admission-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; padding: 15px 20px; border-radius: 8px; background: #25D366; color: #07140B; font-size: 14px; font-weight: 750; text-align: center; text-decoration: none; }
 .whatsapp-admission-button:hover, .whatsapp-admission-button:focus-visible { background: #42E078; outline: 2px solid #25D366; outline-offset: 3px; }
 .application-submitted-info summary { cursor: pointer; color: var(--brand-primary-muted); font-weight: 650; }
@@ -571,9 +558,6 @@ main[class*="bg-[var(--paper)]"] a.rounded-full:nth-child(2) { background: #0C10
 .application-submitted-info dt { color: #A7B0B8; }
 .application-submitted-info dd { margin: 0; overflow-wrap: anywhere; }
 .application-submitted-info dd, .application-submitted-info dt { font-size: 12px; }
-.course-fee-input { width: 120px; min-height: 38px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 7px; background: #0D1416; color: #E4E9EC; }
-.course-fee-input:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
-.course-fee-submit { min-height: 38px; padding: 7px 10px; border: 1px solid transparent; border-radius: 7px; background: var(--brand-primary); color: #031014; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
 .course-row-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 150px; }
 .course-editor { position: relative; }
 .course-editor > summary { width: fit-content; padding: 8px 12px; cursor: pointer; list-style: none; }

@@ -131,7 +131,6 @@ const courseInput = z.object({
   slug: z.string().trim().min(2).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   description: z.string().trim().min(10).max(2000),
   duration: z.string().trim().min(2).max(100),
-  fee: z.string().trim().regex(/^\d{1,8}(?:\.\d{1,2})?$/).or(z.literal("")),
 });
 
 export async function createCourse(formData: FormData) {
@@ -139,13 +138,13 @@ export async function createCourse(formData: FormData) {
   const parsed = courseInput.safeParse(Object.fromEntries(formData));
   if (!parsed.success) redirect("/admin/courses?error=invalid");
 
-  const { fee, ...course } = parsed.data;
+  const course = parsed.data;
   if (await db.course.findUnique({ where: { slug: course.slug }, select: { id: true } })) {
     redirect("/admin/courses?error=slug-taken");
   }
 
   try {
-    await db.course.create({ data: { ...course, fee: fee || null } });
+    await db.course.create({ data: course });
   } catch (error) {
     if (hasPrismaCode(error, "P2002")) redirect("/admin/courses?error=slug-taken");
     throw error;
@@ -160,7 +159,7 @@ export async function updateCourse(formData: FormData) {
   const parsed = courseInput.extend({ id: z.string().cuid() }).safeParse(Object.fromEntries(formData));
   if (!parsed.success) redirect("/admin/courses?error=invalid");
 
-  const { id, fee, ...data } = parsed.data;
+  const { id, ...data } = parsed.data;
   let outcome: "updated" | "not-found" | "slug-taken";
 
   try {
@@ -171,7 +170,7 @@ export async function updateCourse(formData: FormData) {
       const duplicate = await tx.course.findUnique({ where: { slug: data.slug }, select: { id: true } });
       if (duplicate && duplicate.id !== id) return "slug-taken";
 
-      await tx.course.update({ where: { id }, data: { ...data, fee: fee || null } });
+      await tx.course.update({ where: { id }, data });
       await tx.auditLog.create({
         data: {
           userId: admin.id,
@@ -179,8 +178,8 @@ export async function updateCourse(formData: FormData) {
           entity: "Course",
           entityId: id,
           metadata: {
-            before: { name: current.name, slug: current.slug, duration: current.duration, description: current.description, fee: current.fee?.toString() ?? null },
-            after: { ...data, fee: fee || null },
+            before: { name: current.name, slug: current.slug, duration: current.duration, description: current.description },
+            after: data,
           },
         },
       });
@@ -210,7 +209,6 @@ export async function deleteCourse(formData: FormData) {
     batches: number;
     applications: number;
     students: number;
-    payments: number;
   };
 
   try {
@@ -221,10 +219,8 @@ export async function deleteCourse(formData: FormData) {
       const batches = await tx.batch.count({ where: { courseId: course.id } });
       const applications = await tx.application.count({ where: { batch: { courseId: course.id } } });
       const students = await tx.student.count({ where: { applications: { some: { batch: { courseId: course.id } } } } });
-      const payments = await tx.payment.count({ where: { application: { batch: { courseId: course.id } } } });
-
-      if (batches || applications || students || payments) {
-        return { kind: "in-use", batches, applications, students, payments };
+      if (batches || applications || students) {
+        return { kind: "in-use", batches, applications, students };
       }
 
       await tx.course.delete({ where: { id: course.id } });
@@ -252,36 +248,6 @@ export async function deleteCourse(formData: FormData) {
 
   revalidateCoursePages();
   redirect("/admin/courses?success=deleted");
-}
-
-export async function updateCourseFee(formData: FormData) {
-  const admin = await requireMutation();
-  const parsed = z.object({
-    id: z.string().cuid(),
-    fee: z.string().trim().regex(/^\d{1,8}(?:\.\d{1,2})?$/).or(z.literal("")),
-  }).safeParse({ id: formData.get("id"), fee: formData.get("fee") });
-  if (!parsed.success) redirect("/admin/courses?error=invalid");
-
-  const updated = await db.$transaction(async (tx) => {
-    const course = await tx.course.findUnique({ where: { id: parsed.data.id }, select: { id: true, fee: true } });
-    if (!course) return false;
-
-    const fee = parsed.data.fee || null;
-    await tx.course.update({ where: { id: course.id }, data: { fee } });
-    await tx.auditLog.create({
-      data: {
-        userId: admin.id,
-        action: "COURSE_FEE_UPDATED",
-        entity: "Course",
-        entityId: course.id,
-        metadata: { before: course.fee?.toString() ?? null, after: fee },
-      },
-    });
-    return true;
-  });
-  if (!updated) redirect("/admin/courses?error=not-found");
-  revalidateCoursePages();
-  redirect("/admin/courses?success=fee-updated");
 }
 
 export async function toggleCourse(formData: FormData) {
